@@ -2,7 +2,7 @@ import React from 'react';
 
 function Board(props){
     return(
-        <div className = 'flex-container-col' style ={{backgroundColor:'#e5fffd'}}>
+        <div className = 'flex-container-col' style ={{backgroundColor:'000000'}}>
             <h1 className ='title flex-container-row'>This is the game board</h1>
         </div>
     )

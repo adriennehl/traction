@@ -1,6 +1,8 @@
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Landing from './Components/Landing/landing';
 import Game from './Components/Game/game';
+import RoomSelection from './Components/RoomSelection/roomSelection';
+import TeamView from './Components/TeamView/teamView';
 import './App.css';
 
 function App() {
@@ -8,20 +10,12 @@ function App() {
     <Router>
       <div className="App">
         <header className="App-header">
-          <p>Welcome to traction!</p>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/game">Game</Link>
-              </li>
-            </ul>
-          </nav>
           <Routes>
             <Route path="/game" element={<Game/>}/>
-            <Route path="/" element={<Landing/>}/>
+            <Route path="/" element={<RoomSelection/>}/>
+            <Route path="/createLanding" element={<Landing roomCode={true}/>}/>
+            <Route path="/joinLanding" element={<Landing roomCode={false}/>}/>
+            <Route path="/teamview" element={<TeamView/>}/>
           </Routes>
         </header>
       </div>
