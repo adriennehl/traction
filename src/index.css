@@ -11,3 +11,45 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.team-name {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 36px;
+  line-height: 42px;
+  margin-inline: 80px;
+}
+
+.player-name {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 21px;
+}
+
+.player-card {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  margin-inline: 5px;
+  width: 66.5px;
+  height: 95px; 
+  border-radius: 10px;
+  border-width: 1px;
+  border-color: #fff;
+  background-color: #008080;
+}
+
+.board-card {
+  margin: 8px;
+  width: 19.25px;
+  height: 27.5px; 
+  border-radius: 3px;
+  border-width: 1px;
+  border-color: #fff;
+  background-color: #008080;
+}
+
+.board-image {
+  width: 19.25px;
+  height: 27.5px;
+}
