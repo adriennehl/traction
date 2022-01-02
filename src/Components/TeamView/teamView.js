@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function TeamView(props){
     return(
         <div className = 'flex-container-col' style ={{backgroundColor:'000000'}}>
-            <h1 className ='title flex-container-row'>Room AAAA</h1>
+            <h1 className ='title flex-container-row'>Room {props.roomCode}</h1>
             <Team teamNum = {1} players = {["atreen", "teemo", "tuna", "HZTingles"]}/>
             <Team teamNum = {2} players = {["atreen", "teemo", "tuna", "HZTingles"]}/>
             <Team teamNum = {3} players = {["atreen", "teemo", "tuna", "HZTingles"]}/>

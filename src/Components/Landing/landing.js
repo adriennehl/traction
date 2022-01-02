@@ -1,31 +1,45 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { socket } from '../../socket'; // import connected socket
 
 function Landing (props) {
+
     const navigate = useNavigate();
-    const joinRoom = (id) => {
+    const joinRoom = () => {
+        if (props.createRoom) {
+            console.log(name);
+            socket.emit('create room', name);
+        }
         navigate("/teamview");
     }
+    const [room, setRoom] = useState("");
+    const [name, setName] = useState("");
+
+    useEffect(() => {
+        // Listen for socket events
+        socket.on('room code', roomCode => {
+        console.log("Created room " + roomCode);
+        props.setRoomCode(roomCode);
+      });
+  
+    }, []);
+
     return (
-        <div className='flex-container-col'>
+        <div className='flex-container-col' style={{display:'flex', flexDirection:"column"}}>
             <h1 className='title flex-container-row'>Welcome to Traction!</h1>
-            <p>Room</p>
-            <Form onSubmit={id => joinRoom(id)}>
-                <Form.Group controlId="RoomId">
-                {props.roomCode ? <Form.Control placeholder="AAAA" disabled={true} style ={{textAlign:"center"}}/> 
-                    : <Form.Control placeholder="" style ={{textAlign:"center"}}/>}
-                </Form.Group>
-                <Form.Group controlId="Name">
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control placeholder="" style ={{textAlign:"center"}}/>
-                </Form.Group>
-                <Button variant="secondary" type="submit" style ={{marginTop:10, marginBotton:10}}>
-                    Enter
-                </Button>
-            </Form>
+            {props.createRoom ? null : 
+                <div>
+                    <p>Room</p>
+                    <input placeholder="" style ={{textAlign:"center"}} onChange={event => setRoom(event.target.value)}/>
+                    <p>Name</p> 
+                </div>
+            }
+            <input placeholder="" style ={{textAlign:"center"}} onChange={event => setName(event.target.value)}/>
+            <Button onClick={joinRoom} variant="secondary" type="submit" style ={{marginTop:10, marginBotton:10}}>
+                Enter
+            </Button>    
            <Button as={Link} to={"/"} style ={{marginTop:10, marginBotton:10}}>Back</Button>
         </div>
     );

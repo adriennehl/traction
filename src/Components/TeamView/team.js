@@ -10,7 +10,7 @@ function Team(props){
                 <h1 className ='team-name' style = {{color:teams[props.teamNum].color}}>{teams[props.teamNum].name}</h1>
                 {
                     props.players.map(player => (
-                        <p className='player-name'>{player}</p>
+                        <p key={player} className='player-name'>{player}</p>
                     ))
                 }
             </div>

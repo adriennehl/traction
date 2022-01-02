@@ -10,6 +10,8 @@ import InfoDialog from './Components/Game/infoDialog';
 
 function App() {
   const [showInfo, setShowInfo] = useState(false);
+  const [roomCode, setRoomCode] = useState("");
+
   return (
     <Router>
       <div className="App">
@@ -19,9 +21,9 @@ function App() {
           <Routes>
             <Route path="/game" element={<Game/>}/>
             <Route path="/" element={<RoomSelection/>}/>
-            <Route path="/createLanding" element={<Landing roomCode={true}/>}/>
-            <Route path="/joinLanding" element={<Landing roomCode={false}/>}/>
-            <Route path="/teamview" element={<TeamView/>}/>
+            <Route path="/createLanding" element={<Landing createRoom={true} setRoomCode={(code) => setRoomCode(code)}/>}/>
+            <Route path="/joinLanding" element={<Landing createRoom={false} setRoomCode={(code) => setRoomCode(code)}/>}/>
+            <Route path="/teamview" element={<TeamView roomCode={roomCode}/>}/>
           </Routes>
         </header>
       </div>
