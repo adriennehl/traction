@@ -8,20 +8,45 @@ function Landing (props) {
 
     const navigate = useNavigate();
     const joinRoom = () => {
+        props.setName(name);
+        props.setTeamName("red");
         if (props.createRoom) {
-            console.log(name);
             socket.emit('create room', name);
         }
-        navigate("/teamview");
+        else {
+            props.setRoomCode(room);
+            socket.emit('join room', room, name);
+        }
     }
     const [room, setRoom] = useState("");
     const [name, setName] = useState("");
+    const [errorMsg, setErrorMsg] = useState("");
+    const [showErrorMsg, setShowErrorMsg] = useState(false);
 
     useEffect(() => {
         // Listen for socket events
         socket.on('room code', roomCode => {
         console.log("Created room " + roomCode);
         props.setRoomCode(roomCode);
+        navigate("/teamview");
+      });
+
+      socket.on('room updated', teams => {
+        console.log(`Updated teams: ${JSON.stringify(teams)}`);
+        props.setTeams(teams);
+        navigate("/teamview");
+      });
+  
+      socket.on('invalid room', () => {
+        console.log(`Cannot join room ${room}: invalid code.`);
+        setErrorMsg(`Cannot join room ${room}: invalid code.`);
+        setShowErrorMsg(true);
+      });
+      
+      socket.on('name exists', () => {
+        console.log(`Cannot join room ${room}: name already exists.`);
+        setErrorMsg(`Cannot join room ${room}: name already exists.`);
+        setShowErrorMsg(true);
       });
   
     }, []);
@@ -32,15 +57,16 @@ function Landing (props) {
             {props.createRoom ? null : 
                 <div>
                     <p>Room</p>
-                    <input placeholder="" style ={{textAlign:"center"}} onChange={event => setRoom(event.target.value)}/>
-                    <p>Name</p> 
+                    <input placeholder="" style ={{textAlign:"center"}} onChange={event => setRoom(event.target.value.toUpperCase())}/>
                 </div>
             }
+            <p>Name</p> 
             <input placeholder="" style ={{textAlign:"center"}} onChange={event => setName(event.target.value)}/>
             <Button onClick={joinRoom} variant="secondary" type="submit" style ={{marginTop:10, marginBotton:10}}>
                 Enter
             </Button>    
            <Button as={Link} to={"/"} style ={{marginTop:10, marginBotton:10}}>Back</Button>
+           {showErrorMsg ? <p className="error-msg">{errorMsg}</p> : null}
         </div>
     );
 }

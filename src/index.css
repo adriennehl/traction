@@ -53,3 +53,12 @@ code {
   width: 19.25px;
   height: 27.5px;
 }
+
+.error-msg {
+  margin: 20px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  color: #FC3A3A;
+}

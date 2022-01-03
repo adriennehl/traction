@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import Landing from './Components/Landing/landing';
 import Game from './Components/Game/game';
 import RoomSelection from './Components/RoomSelection/roomSelection';
@@ -11,6 +11,9 @@ import InfoDialog from './Components/Game/infoDialog';
 function App() {
   const [showInfo, setShowInfo] = useState(false);
   const [roomCode, setRoomCode] = useState("");
+  const [name, setName] = useState("");
+  const [teamName, setTeamName] = useState("");
+  const [teams, setTeams] = useState({red:[], blue:[], green:[]});
 
   return (
     <Router>
@@ -21,9 +24,12 @@ function App() {
           <Routes>
             <Route path="/game" element={<Game/>}/>
             <Route path="/" element={<RoomSelection/>}/>
-            <Route path="/createLanding" element={<Landing createRoom={true} setRoomCode={(code) => setRoomCode(code)}/>}/>
-            <Route path="/joinLanding" element={<Landing createRoom={false} setRoomCode={(code) => setRoomCode(code)}/>}/>
-            <Route path="/teamview" element={<TeamView roomCode={roomCode}/>}/>
+            <Route path="/createLanding" element={<Landing createRoom={true} setRoomCode={(code) => setRoomCode(code)} 
+              setName={(name) => setName(name)} setTeamName={(team) => setTeamName(team)} setTeams={(teams) => setTeams(teams)}/>}/>
+            <Route path="/joinLanding" element={<Landing createRoom={false} setRoomCode={(code) => setRoomCode(code)}
+              setName={(name) => setName(name)} setTeamName={(team) => setTeamName(team)} setTeams={(teams) => setTeams(teams)}/>}/>
+            <Route path="/teamview" element={<TeamView roomCode={roomCode} name={name} teamName={teamName} teams={teams}
+              setTeamName={(team) => setTeamName(team)} setTeams={(teams) => setTeams(teams)}/>}/>
           </Routes>
         </header>
       </div>
