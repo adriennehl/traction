@@ -5,7 +5,7 @@ import snoopy from './cardPics/snoopy.jpg';
 function Card(props){
     return(
         <Button className= {props.className} style = {{backgroundImage: `url(${snoopy})`, backgroundPosition: 'center',
-        backgroundSize: 'cover'}}></Button>
+        backgroundSize: 'cover'}}>{props.text}</Button>
     )
 }
 

@@ -14,6 +14,7 @@ function App() {
   const [name, setName] = useState("");
   const [teamName, setTeamName] = useState("");
   const [teams, setTeams] = useState({red:[], blue:[], green:[]});
+  const [gameState, setGameState] = useState(null);
 
   return (
     <Router>
@@ -22,14 +23,14 @@ function App() {
       <InfoDialog show={showInfo} onHide={()=>setShowInfo(false)}/>  
         <header className="App-header">
           <Routes>
-            <Route path="/game" element={<Game/>}/>
+            <Route path="/game" element={<Game  roomCode={roomCode} name={name} teamName={teamName} setGameState={(gameState) => setGameState(gameState)} gameState={gameState}/>}/>
             <Route path="/" element={<RoomSelection/>}/>
             <Route path="/createLanding" element={<Landing createRoom={true} setRoomCode={(code) => setRoomCode(code)} 
               setName={(name) => setName(name)} setTeamName={(team) => setTeamName(team)} setTeams={(teams) => setTeams(teams)}/>}/>
             <Route path="/joinLanding" element={<Landing createRoom={false} setRoomCode={(code) => setRoomCode(code)}
               setName={(name) => setName(name)} setTeamName={(team) => setTeamName(team)} setTeams={(teams) => setTeams(teams)}/>}/>
             <Route path="/teamview" element={<TeamView roomCode={roomCode} name={name} teamName={teamName} teams={teams}
-              setTeamName={(team) => setTeamName(team)} setTeams={(teams) => setTeams(teams)}/>}/>
+              setTeamName={(team) => setTeamName(team)} setTeams={(teams) => setTeams(teams)} setGameState={(gameState) => setGameState(gameState)}/>}/>
           </Routes>
         </header>
       </div>

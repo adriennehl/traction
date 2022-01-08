@@ -11,28 +11,36 @@ function TeamView(props){
         navigate("/");
         // socket.emit('leave room', props.roomCode, props.name, props.teamName);
     }
-    const [teamPlayers, setTeamPlayers] = useState(props.teams)
     const joinTeam = (team) => {
         props.setTeamName(team);
         console.log(`room ${props.roomCode} name ${props.name} team ${team}`);
         socket.emit('join team', props.roomCode, props.name, team);
     } 
+    const startGame = () => {
+        // TODO: check for even teams
+        navigate("/game");
+        socket.emit('start game', props.roomCode);
+    }
 
     useEffect(() => {
-      socket.on('room updated', teams => {
-        console.log(`Updated teams: ${JSON.stringify(teams)}`);
-        setTeamPlayers(teams);
-        navigate("/teamview");
-      });
+        socket.on('room updated', teams => {
+            console.log(`Updated teams: ${JSON.stringify(teams)}`);
+            props.setTeams(teams);
+        });
+
+        socket.on('game updated', state => {
+            console.log(`Updated state: ${JSON.stringify(state)}`);
+            props.setGameState(state);
+          });
     }, []);
 
     return(
         <div className = 'flex-container-col' style ={{backgroundColor:'000000'}}>
             <h1 className ='title flex-container-row'>Room {props.roomCode}</h1>
-            <Team teamNum = {1} players = {teamPlayers.red} onClick={()=>joinTeam("red")}/>
-            <Team teamNum = {2} players = {teamPlayers.blue} onClick={()=>joinTeam("blue")}/>
-            <Team teamNum = {3} players = {teamPlayers.green} onClick={()=>joinTeam("green")}/>
-            <Button as={Link} to={"/game"} style ={{margin:10}}>Begin</Button>
+            <Team teamNum = {1} players = {props.teams.red} onClick={()=>joinTeam("red")}/>
+            <Team teamNum = {2} players = {props.teams.blue} onClick={()=>joinTeam("blue")}/>
+            <Team teamNum = {3} players = {props.teams.green} onClick={()=>joinTeam("green")}/>
+            <Button onClick={startGame} style ={{margin:10}}>Begin</Button>
             <Button variant="secondary" onClick={returnHome} style ={{margin:10}}>Back</Button>
         </div>
     )

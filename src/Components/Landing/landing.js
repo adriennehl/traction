@@ -26,28 +26,29 @@ function Landing (props) {
     useEffect(() => {
         // Listen for socket events
         socket.on('room code', roomCode => {
-        console.log("Created room " + roomCode);
-        props.setRoomCode(roomCode);
-        navigate("/teamview");
-      });
+            console.log("Created room " + roomCode);
+            props.setRoomCode(roomCode);
+            socket.emit('join team', roomCode, name, 'red');
+            navigate("/teamview");
+        });
 
-      socket.on('room updated', teams => {
-        console.log(`Updated teams: ${JSON.stringify(teams)}`);
-        props.setTeams(teams);
-        navigate("/teamview");
-      });
+        socket.on('room updated', teams => {
+            console.log(`Updated teams: ${JSON.stringify(teams)}`);
+            props.setTeams(teams);
+            navigate("/teamview");
+        });
   
-      socket.on('invalid room', () => {
-        console.log(`Cannot join room ${room}: invalid code.`);
-        setErrorMsg(`Cannot join room ${room}: invalid code.`);
-        setShowErrorMsg(true);
-      });
+        socket.on('invalid room', () => {
+            console.log(`Cannot join room ${room}: invalid code.`);
+            setErrorMsg(`Cannot join room ${room}: invalid code.`);
+            setShowErrorMsg(true);
+        });
       
-      socket.on('name exists', () => {
-        console.log(`Cannot join room ${room}: name already exists.`);
-        setErrorMsg(`Cannot join room ${room}: name already exists.`);
-        setShowErrorMsg(true);
-      });
+        socket.on('name exists', () => {
+            console.log(`Cannot join room ${room}: name already exists.`);
+            setErrorMsg(`Cannot join room ${room}: name already exists.`);
+            setShowErrorMsg(true);
+        });
   
     }, []);
 
